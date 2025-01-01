@@ -11,8 +11,8 @@ public class MsSqlOneColumnService(MsSqlService msSqlService)
 {
     public async Task<ResultWithExceptionMsSqlServer<List<int>>> Int(string tableName, string column)
     {
-        List<int> l = new();
-        SqlCommand cmd = new SqlCommand($"select {column} from {tableName}");
+        List<int> l = [];
+        SqlCommand cmd = new($"select {column} from {tableName}");
 
         var connResult = await msSqlService.GetAndOpenConnection();
 

@@ -38,7 +38,7 @@ public class MsSqlService(DbContext db, ILogger logger)
         }
         var conn = connResult.Data;
 
-        SqlCommand comm = new SqlCommand($"delete from {tableName}", connResult.Data);
+        SqlCommand comm = new($"delete from {tableName}", connResult.Data);
         await comm.ExecuteNonQueryAsync();
 
         await MsSqlConnectHelper.Close(conn);
