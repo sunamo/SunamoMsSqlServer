@@ -1,7 +1,6 @@
 global using SunamoMsSqlServer.Helpers;
 global using SunamoMsSqlServer.Services;
 global using SunamoMsSqlServer._public;
-
 global using Microsoft.Data.SqlClient;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
