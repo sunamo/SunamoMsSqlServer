@@ -1,5 +1,7 @@
 namespace SunamoMsSqlServer.Services;
 
+using SunamoMsSqlServer._sunamo;
+
 public class UniqueIdService(MsSqlOneColumnService msSqlOneColumn, MsSqlService msSqlService, ILogger logger, DbContext db)
 {
     public async Task RevokeInsert(string tableName)
@@ -11,8 +13,13 @@ public class UniqueIdService(MsSqlOneColumnService msSqlOneColumn, MsSqlService 
     {
         await RunSqlCommand(tableName, false);
     }
+#pragma warning disable
     private async Task RunSqlCommand(string tableName, bool revoke)
+#pragma warning enable
+
     {
+        ThrowEx.NotImplementedMethod();
+
         // čti komentář v RevokeInsert
         return;
         var commandPart = revoke ? "REVOKE" : "GRANT";
