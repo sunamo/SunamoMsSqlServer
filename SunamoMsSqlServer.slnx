@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SunamoMsSqlServer.Tests\\SunamoMsSqlServer.Tests.csproj" />
+  <Project Path="RunnerMsSqlServer\\RunnerMsSqlServer.csproj" />
+  <Project Path="SunamoMsSqlServer\SunamoMsSqlServer.csproj" />
+</Solution>
