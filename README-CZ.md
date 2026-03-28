@@ -1,26 +1,26 @@
 # SunamoMsSqlServer
 
-Pomocné metody a služby pro MS SQL Server.
+Helpers and services for MS SQL Server.
 
-## Rozdíly v Target Frameworku
+## Target Framework Differences
 
-### Hlavní Knihovna (SunamoMsSqlServer.csproj)
+### Main Library (SunamoMsSqlServer.csproj)
 - **Target Frameworks**: net10.0, net9.0, net8.0
-- **Důvod**: NuGet balíčky musí podporovat více verzí .NET pro širokou kompatibilitu
+- **Reason**: NuGet packages must support multiple .NET versions for broad compatibility
 
-### Testovací a Runner Projekty
-- **Target Framework**: pouze net10.0
-- **Dotčené projekty**:
+### Test and Runner Projects
+- **Target Framework**: net10.0 only
+- **Affected projects**:
   - SunamoMsSqlServer.Tests
   - RunnerMsSqlServer
-- **Důvod**: Testovací a runner projekty nepotřebují multi-targeting. Použití pouze nejnovější verze .NET (net10.0) zjednodušuje správu závislostí a vyhýbá se problémům s kompatibilitou balíčků.
+- **Reason**: Test and runner projects don't need multi-targeting. Using only the latest .NET version (net10.0) simplifies dependency management and avoids package compatibility issues.
 
-## Změny Verzí Balíčků (2026-02-04)
+## Package Version Changes (2026-02-04)
 
 ### Entity Framework Core
-- **Změněno z**: 10.0.2 → 9.0.1
-- **Důvod**: EF Core 10.0.2 vyžaduje pouze .NET 10. Verze 9.0.1 podporuje net8.0, net9.0 i net10.0.
+- **Changed from**: 10.0.2 to 9.0.1
+- **Reason**: EF Core 10.0.2 requires .NET 10 only. Version 9.0.1 supports net8.0, net9.0, and net10.0.
 
 ### Microsoft.Extensions.Logging.Abstractions
-- **Změněno z**: 10.0.2 → * (nejnovější kompatibilní)
-- **Důvod**: Použití wildcard zajistí že automaticky dostaneme nejnovější kompatibilní verzi, čímž se vyhneme konfliktům verzí se závislostmi.
+- **Changed from**: 10.0.2 to * (latest compatible)
+- **Reason**: Using wildcard ensures we get the latest compatible version automatically, avoiding version conflicts with dependencies.

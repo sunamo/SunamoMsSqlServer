@@ -2,76 +2,73 @@ namespace SunamoMsSqlServer.Services;
 
 using SunamoMsSqlServer._sunamo;
 
-public class UniqueIdService(MsSqlOneColumnService msSqlOneColumn, MsSqlService msSqlService, ILogger logger, DbContext db)
+/// <summary>
+/// Service for managing unique ID generation and identity insert permissions on MS SQL Server tables.
+/// </summary>
+/// <param name="logger">The logger instance for error reporting.</param>
+/// <param name="dbContext">The Entity Framework DbContext for database access.</param>
+public class UniqueIdService(ILogger logger, DbContext dbContext)
 {
+    /// <summary>
+    /// Revokes INSERT permission on the specified table.
+    /// </summary>
+    /// <param name="tableName">The name of the table to revoke INSERT permission from.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task RevokeInsert(string tableName)
     {
-        // TODO: tady musím počkat než se db uvolní. jinak bych mohl vkládat pod stejným ID. Než to bude, musím to zakomentovat v RunSqlCommand
+        // TODO: Need to wait until the database connection is released. Otherwise, inserting with a duplicate ID could occur.
         await RunSqlCommand(tableName, true);
     }
+
+    /// <summary>
+    /// Grants INSERT permission on the specified table.
+    /// </summary>
+    /// <param name="tableName">The name of the table to grant INSERT permission on.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task GrantInsert(string tableName)
     {
         await RunSqlCommand(tableName, false);
     }
-#pragma warning disable
-    private async Task RunSqlCommand(string tableName, bool revoke)
-#pragma warning enable
 
+    private Task RunSqlCommand(string tableName, bool isRevoking)
     {
         ThrowEx.NotImplementedMethod();
-
-        // čti komentář v RevokeInsert
-        return;
-        var commandPart = revoke ? "REVOKE" : "GRANT";
-        var result = await msSqlService.GetAndOpenConnection();
-        var sqlConn = result.Data;
-        try
-        {
-            await MsSqlConnectHelper.Open(sqlConn);
-            SqlCommand cmd = new SqlCommand($"{commandPart} INSERT ON {tableName} FROM public;", sqlConn);
-            await cmd.ExecuteNonQueryAsync();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex.Message);
-        }
-        finally
-        {
-            await MsSqlConnectHelper.Close(sqlConn);
-        }
+        return Task.CompletedTask;
     }
-    public async Task<ResultWithExceptionMsSqlServer<int>> Int(string tableName, string column)
+
+    /// <summary>
+    /// Returns the next unique integer ID for the specified table column by finding the current maximum and incrementing it.
+    /// </summary>
+    /// <param name="tableName">The name of the table to query.</param>
+    /// <param name="columnName">The name of the column to find the maximum value in.</param>
+    /// <returns>A result containing the next unique integer ID or an exception message.</returns>
+    public async Task<ResultWithExceptionMsSqlServer<int>> Int(string tableName, string columnName)
     {
-        var dbConn = db.Database.GetDbConnection();
-        var sqlConn = dbConn as SqlConnection;
-        await MsSqlConnectHelper.Open(sqlConn);
-        int max = int.MinValue;
+        var databaseConnection = dbContext.Database.GetDbConnection();
+        var sqlConnection = databaseConnection as SqlConnection
+            ?? throw new InvalidOperationException($"Database connection is not a SqlConnection, got {databaseConnection.GetType().Name}");
+        await MsSqlConnectHelper.Open(sqlConnection);
+        int maximumId = int.MinValue;
         try
         {
-            var sqlCommand = $"SELECT MAX({column}) FROM {tableName};";
-            SqlCommand cmd = new SqlCommand(sqlCommand, sqlConn);
-            var scalar = await cmd.ExecuteScalarAsync();
+            var sqlCommandText = $"SELECT MAX({columnName}) FROM {tableName};";
+            SqlCommand command = new SqlCommand(sqlCommandText, sqlConnection);
+            var scalar = await command.ExecuteScalarAsync();
             if (scalar == null)
             {
-                logger.LogError($"{sqlCommand} return null");
-                return new ResultWithExceptionMsSqlServer<int>($"{sqlCommand} return null");
+                logger.LogError($"{sqlCommandText} return null");
+                return new ResultWithExceptionMsSqlServer<int>($"{sqlCommandText} return null");
             }
-            max = int.Parse(scalar.ToString());
+            maximumId = int.Parse(scalar.ToString()!);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            logger.LogError(ex.Message);
+            logger.LogError(exception.Message);
         }
         finally
         {
-            await MsSqlConnectHelper.Close(sqlConn);
+            await MsSqlConnectHelper.Close(sqlConnection);
         }
-        //var cells = await msSqlOneColumn.Int(tableName, column);
-        //if (cells.Exc != null)
-        //{
-        //    return new ResultWithExceptionMsSqlServer<int>(cells.Exc);
-        //}
-        //var max = cells.Data.Max();
-        return new(++max);
+        return new(++maximumId);
     }
 }

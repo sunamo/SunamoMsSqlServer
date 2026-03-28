@@ -1,9 +1,13 @@
 namespace SunamoMsSqlServer._sunamo;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+/// <summary>
+/// Provides helper methods for throwing standard exceptions.
+/// </summary>
 internal class ThrowEx
 {
+    /// <summary>
+    /// Throws an exception indicating that the method is not yet implemented.
+    /// </summary>
     internal static void NotImplementedMethod()
     {
         throw new Exception("Method is not implemented");

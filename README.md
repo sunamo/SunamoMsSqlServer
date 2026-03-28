@@ -1,34 +1,27 @@
 # SunamoMsSqlServer
 
-Helpers and services for MS Sql Server
+Helpers and services for MS SQL Server.
 
 ## Overview
 
-SunamoMsSqlServer is part of the Sunamo package ecosystem, providing modular, platform-independent utilities for .NET development.
+SunamoMsSqlServer is part of the Sunamo package ecosystem, providing modular, platform-independent utilities for .NET development. It offers helper classes and services for managing SQL Server connections, executing queries, and handling identity inserts using Entity Framework Core.
 
 ## Main Components
 
-### Key Classes
+### Helpers
 
-- **IdentityHelpers**
-- **MsSqlConnectHelper**
-- **MsSqlOneColumnService**
-- **MsSqlService**
-- **UniqueIdService**
-- **ResultWithExceptionMsSqlServer**
+- **IdentityHelpers** - Extension methods for managing SQL Server IDENTITY_INSERT on Entity Framework Core DbContext
+- **MsSqlConnectHelper** - Helper methods for opening and closing SQL Server connections
 
-### Key Methods
+### Services
 
-- `Open()`
-- `Close()`
-- `MsSqlOneColumnService()`
-- `Int()`
-- `MsSqlService()`
-- `GetAndOpenConnection()`
-- `DeleteAll()`
-- `UniqueIdService()`
-- `RevokeInsert()`
-- `GrantInsert()`
+- **MsSqlService** - Core service for managing MS SQL Server connections and executing database operations
+- **MsSqlOneColumnService** - Service for reading single-column data from MS SQL Server tables
+- **UniqueIdService** - Service for managing unique ID generation and identity insert permissions
+
+### Data Types
+
+- **ResultWithExceptionMsSqlServer\<T\>** - Wrapper for result values or exception messages from MS SQL Server operations
 
 ## Installation
 
@@ -38,20 +31,12 @@ dotnet add package SunamoMsSqlServer
 
 ## Dependencies
 
-- **Microsoft.Data.SqlClient** (v6.0.1)
-- **Microsoft.EntityFrameworkCore** (v9.0.3)
-- **Microsoft.EntityFrameworkCore.Relational** (v9.0.3)
-- **Microsoft.Extensions.Logging.Abstractions** (v9.0.3)
+- **Microsoft.Data.SqlClient** (v6.1.4)
+- **Microsoft.EntityFrameworkCore** (v9.0.1)
+- **Microsoft.EntityFrameworkCore.Relational** (v9.0.1)
+- **Microsoft.Extensions.Logging.Abstractions** (latest compatible)
 
-## Package Information
-
-- **Package Name**: SunamoMsSqlServer
-- **Version**: 25.6.7.1
-- **Target Framework**: net9.0
-- **Category**: Platform-Independent NuGet Package
-- **Source Files**: 7
-
-## Target Framework Differences
+## Target Frameworks
 
 ### Main Library (SunamoMsSqlServer.csproj)
 - **Target Frameworks**: net10.0, net9.0, net8.0
@@ -59,25 +44,8 @@ dotnet add package SunamoMsSqlServer
 
 ### Test & Runner Projects
 - **Target Framework**: net10.0 only
-- **Projects affected**:
-  - SunamoMsSqlServer.Tests
-  - RunnerMsSqlServer
-- **Reason**: Test and runner projects don't need multi-targeting. Using only the latest .NET version (net10.0) simplifies dependency management and avoids package compatibility issues.
-
-## Package Version Changes (2026-02-04)
-
-### Entity Framework Core
-- **Changed from**: 10.0.2 → 9.0.1
-- **Reason**: EF Core 10.0.2 requires .NET 10 only. Version 9.0.1 supports net8.0, net9.0, and net10.0.
-
-### Microsoft.Extensions.Logging.Abstractions
-- **Changed from**: 10.0.2 → * (latest compatible)
-- **Reason**: Using wildcard ensures we get the latest compatible version automatically, avoiding version conflicts with dependencies.
-
-## Related Packages
-
-This package is part of the Sunamo package ecosystem. For more information about related packages, visit the main repository.
+- **Reason**: Test and runner projects don't need multi-targeting. Using only the latest .NET version simplifies dependency management.
 
 ## License
 
-See the repository root for license information.
+MIT

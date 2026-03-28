@@ -1,19 +1,33 @@
 namespace SunamoMsSqlServer.Helpers;
 
+/// <summary>
+/// Provides helper methods for opening and closing SQL Server connections.
+/// </summary>
 public class MsSqlConnectHelper
 {
-    public static async Task Open(SqlConnection conn)
+    /// <summary>
+    /// Opens the SQL connection if it is not already open.
+    /// </summary>
+    /// <param name="connection">The SQL connection to open.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static async Task Open(SqlConnection connection)
     {
-        if (conn.State != ConnectionState.Open)
+        if (connection.State != ConnectionState.Open)
         {
-            await conn.OpenAsync();
+            await connection.OpenAsync();
         }
     }
-    public static async Task Close(SqlConnection conn)
+
+    /// <summary>
+    /// Closes the SQL connection if it is not already closed.
+    /// </summary>
+    /// <param name="connection">The SQL connection to close.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public static async Task Close(SqlConnection connection)
     {
-        if (conn.State != ConnectionState.Closed)
+        if (connection.State != ConnectionState.Closed)
         {
-            await conn.CloseAsync();
+            await connection.CloseAsync();
         }
     }
 }
