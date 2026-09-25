@@ -15,7 +15,7 @@ public class MsSqlService(DbContext dbContext, ILogger logger)
     {
         var databaseConnection = dbContext.Database.GetDbConnection();
         var connection = databaseConnection as SqlConnection;
-        if (connection == null)
+        if (connection is null)
         {
             var exceptionMessage = $"SqlConnection is default, dbConn is {databaseConnection}";
             logger.LogError(exceptionMessage);
