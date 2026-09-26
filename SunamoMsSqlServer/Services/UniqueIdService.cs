@@ -52,9 +52,9 @@ public class UniqueIdService(ILogger logger, DbContext dbContext)
         try
         {
             var sqlCommandText = $"SELECT MAX({columnName}) FROM {tableName};";
-            SqlCommand command = new SqlCommand(sqlCommandText, sqlConnection);
+            SqlCommand command = new(sqlCommandText, sqlConnection);
             var scalar = await command.ExecuteScalarAsync();
-            if (scalar == null)
+            if (scalar is null)
             {
                 logger.LogError($"{sqlCommandText} return null");
                 return new ResultWithExceptionMsSqlServer<int>($"{sqlCommandText} return null");
