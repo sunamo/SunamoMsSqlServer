@@ -1,5 +1,10 @@
 # SunamoMsSqlServer
 
+## Short description
+
+Pomocné třídy a služby pro práci s Microsoft SQL Serverem. Obsahuje Runner a testy.
+
+
 Helpers and services for MS SQL Server.
 
 ## Overview
