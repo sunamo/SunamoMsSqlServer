@@ -19,6 +19,7 @@
     <EmbedAllSources>true</EmbedAllSources>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageTags>sunamo;dotnet;ms;sql;server</PackageTags>
   </PropertyGroup>
   <PropertyGroup>
     <DebugType>portable</DebugType>
