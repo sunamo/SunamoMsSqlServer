@@ -2,14 +2,28 @@ namespace SunamoMsSqlServer.Services;
 
 using SunamoMsSqlServer._sunamo;
 
+/// <summary>
+/// Unique id service.
+/// </summary>
+/// <param name="logger">The logger.</param>
+/// <param name="dbContext">The db context.</param>
+/// <returns>The unique id service result.</returns>
 public class UniqueIdService(ILogger logger, DbContext dbContext)
 {
+    /// <summary>
+    /// Revoke insert.
+    /// </summary>
+    /// <param name="tableName">The table name.</param>
     public async Task RevokeInsert(string tableName)
     {
         // TODO: Need to wait until the database connection is released. Otherwise, inserting with a duplicate ID could occur.
         await RunSqlCommand(tableName, true);
     }
 
+    /// <summary>
+    /// Grant insert.
+    /// </summary>
+    /// <param name="tableName">The table name.</param>
     public async Task GrantInsert(string tableName)
     {
         await RunSqlCommand(tableName, false);
@@ -21,6 +35,12 @@ public class UniqueIdService(ILogger logger, DbContext dbContext)
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Int.
+    /// </summary>
+    /// <param name="tableName">The table name.</param>
+    /// <param name="columnName">The column name.</param>
+    /// <returns>The int result.</returns>
     public async Task<ResultWithExceptionMsSqlServer<int>> Int(string tableName, string columnName)
     {
         var databaseConnection = dbContext.Database.GetDbConnection();

@@ -1,7 +1,18 @@
 namespace SunamoMsSqlServer.Services;
 
+/// <summary>
+/// Ms sql one column service.
+/// </summary>
+/// <param name="msSqlService">The ms sql service.</param>
+/// <returns>The ms sql one column service result.</returns>
 public class MsSqlOneColumnService(MsSqlService msSqlService)
 {
+    /// <summary>
+    /// Int.
+    /// </summary>
+    /// <param name="tableName">The table name.</param>
+    /// <param name="columnName">The column name.</param>
+    /// <returns>The int result.</returns>
     public async Task<ResultWithExceptionMsSqlServer<List<int>>> Int(string tableName, string columnName)
     {
         List<int> list = [];
